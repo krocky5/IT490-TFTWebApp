@@ -1,0 +1,23 @@
+# Starting the server
+# stop the local node
+sudo systemctl stop rabbitmq-server
+
+# start it back
+sudo systemctl start rabbitmq-server
+
+#retstart
+sudo systemctl restart rabbitmq-server
+
+# Rabbitmq-diagnostics related stuff
+# checks if the local node is running and CLI tools can successfully authenticate with it
+sudo rabbitmq-diagnostics ping
+
+# prints enabled components (applications), TCP listeners, memory usage breakdown, alarms
+# and so on
+sudo rabbitmq-diagnostics status
+
+# prints cluster membership information
+sudo rabbitmq-diagnostics cluster_status
+
+# prints effective node configuration
+sudo rabbitmq-diagnostics environment

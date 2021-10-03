@@ -1,0 +1,19 @@
+Reference: https://ubiq.co/tech-blog/how-to-change-port-number-in-apache-in-ubuntu/
+
+# Open Apache config file
+sudo vi /etc/apache2/ports.conf
+
+#Change Apache Port Number
+Listen PORT#
+
+#Edit Config file for particular site
+sudo vi /etc/apache2/sites-enabled/mysite.conf
+
+#Edit default VH config file
+$ sudo vi /etc/apache2/sites-enabled/000-default.conf
+
+#Edit the following line
+<VirtualHost: *:PORT#>
+
+#Restart apache server
+sudo service apache2 restart

@@ -1,0 +1,30 @@
+Reference: https://ubuntu.com/tutorials/install-and-configure-apache#4-setting-up-the-virtualhost-configuration-file
+
+#Installing Apache
+sudo apt update
+sudo apt install apache2
+
+#Creating website
+sudo mkdir /var/www/'name'/
+
+#Creating HTML
+cd /var/www/'name'/
+nano index.html
+
+#Setting Up VirtualHost Configuration File
+cd /etc/apache2/sites-available/
+sudo cp 000-default.conf 'name'.conf
+sudo nano 'name'.conf
+
+#Send an email if there is an error with apache
+ServerAdmin yourname@example.com
+
+#Change Document Root
+DocumentRoot /var/www/'name'
+
+#Directing Server Name
+ServerName 'name'.example.com
+
+#Activating VirtualHosts File
+sudo a2ensite 'name'.conf
+service apache2 reload
