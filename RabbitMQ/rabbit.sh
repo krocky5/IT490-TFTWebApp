@@ -1,4 +1,4 @@
-```
+##Reference: https://www.rabbitmq.com/install-debian.html#apt-quick-start-cloudsmith
 #!/usr/bin/sh
 
 sudo apt-get install curl gnupg apt-transport-https -y
@@ -35,4 +35,3 @@ sudo apt-get install -y erlang-base \
 
 ## Install rabbitmq-server and its dependencies
 sudo apt-get install rabbitmq-server -y --fix-missing
-```
