@@ -2,14 +2,15 @@
 import pika
 from api import *
 
-# testing this:
+# sumInfo 
 sumInfo = riotAPI.main()
+
+# casting tuple to a string
 str_sumInfo = ''.join(sumInfo)
 
 credentials = pika.PlainCredentials(username='jp', password='1234')
-#username password must match on rabbitmq management site
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='172.24.122.108', credentials=credentials))
-#host ipv4 of where the server is
+
 channel = connection.channel()
 
 channel.queue_declare(queue='hello')
