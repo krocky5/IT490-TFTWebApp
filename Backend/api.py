@@ -39,7 +39,7 @@ class riotAPI(object):
         rTier = responseJSON2[0]['tier']
         rRank = responseJSON2[0]['rank']
 
-        # This fails if player does not have a rank in TFT
+        # This fails if player does not have a rank in TFT, make something to check that 
         # print(sName + ' is ' + rTier + ' ' + rRank + ' in Teamfight Tactics')
         # print("Summoner ID: " + id + "\nAccount ID: " + accountId + "\npuuid: " + puuid)
 

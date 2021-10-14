@@ -1,6 +1,7 @@
 from api import *
 
-# swag
+# swag, this file is a test
+# delete later
 infoToSendToRabbit = riotAPI.main()
 
 print (infoToSendToRabbit)
