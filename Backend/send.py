@@ -13,8 +13,10 @@ credentials = pika.PlainCredentials(username='jp', password='1234')
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='172.24.122.108', credentials=credentials))
 
 channel = connection.channel()
-channel.queue_declare(queue='hello')
 
-channel.basic_publish(exchange='', routing_key='hello', body=str_sumInfo)
+# Declaring a queue named 'api'
+channel.queue_declare(queue='api')
+
+channel.basic_publish(exchange='', routing_key='api', body=str_sumInfo)
 print(" [x] Summoner Information Sent ")
 connection.close()
