@@ -1,7 +1,7 @@
-import requests
+import requests, sys, os
 
 # API Key from Riot Developer Portal
-apiKey = "key go here"
+apiKey = "RGAPI-992d1705-cee2-4598-849f-8745893b4cdd"
 
 class riotAPI(object):
     def reqData(sumName):
@@ -55,6 +55,13 @@ class riotAPI(object):
         print(sumName, sumTier, sumRank)
         return sumName, sumTier, sumRank
 
-    
-if __name__ == "__main__":
-    riotAPI.main()
+
+if __name__ == '__main__':
+    try:
+        riotAPI.main()
+    except KeyboardInterrupt:
+        print('\nProgram Interrupted')
+        try:
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)

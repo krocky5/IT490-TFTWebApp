@@ -1,8 +1,10 @@
 #!/usr/bin/env python
+
+# code built from : https://www.rabbitmq.com/tutorials/tutorial-one-python.html
 import pika
 from api import *
 
-# sumInfo 
+# sumInfo - Calls main() object from riotAPI class
 sumInfo = riotAPI.main()
 
 # casting tuple to a string
