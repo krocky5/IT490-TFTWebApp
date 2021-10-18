@@ -6,7 +6,7 @@
   	-moz-osx-font-smoothing: grayscale;
 }
 body {
-  	background-color: #435165;
+  	background-color: #b0f5ef;
   	margin: 0;
 }
 .login, .register {
@@ -17,7 +17,7 @@ body {
 }
 .login h1, .register h1 {
   	text-align: center;
-  	color: #5b6574;
+  	color: #000000;
   	font-size: 24px;
   	padding: 20px 0 20px 0;
   	border-bottom: 1px solid #dee0e4;
@@ -37,8 +37,8 @@ body {
   	color: #9da3ac;
 }
 .login .links a.active, .register .links a.active {
-  	border-bottom: 3px solid #3274d6;
-  	color: #3274d6;
+  	border-bottom: 3px solid #d5d95d;
+  	color: #d5d95d;
 }
 .login form, .register form {
   	display: flex;
@@ -52,7 +52,7 @@ body {
   	align-items: center;
   	width: 50px;
   	height: 50px;
-  	background-color: #3274d6;
+  	background-color: #d5d95d;
   	color: #ffffff;
 }
 .login form input[type="password"], .login form input[type="text"], .login form input[type="email"], .register form input[type="password"], .register form input[type="text"], .register form input[type="email"] {
@@ -66,7 +66,7 @@ body {
   	width: 100%;
   	padding: 15px;
   	margin-top: 20px;
-  	background-color: #3274d6;
+  	background-color: #d5d95d;
   	border: 0;
   	cursor: pointer;
   	font-weight: bold;
@@ -74,11 +74,11 @@ body {
   	transition: background-color 0.2s;
 }
 .login form input[type="submit"]:hover, .register form input[type="submit"]:hover {
-  	background-color: #2868c7;
+  	background-color: #989c4e;
   	transition: background-color 0.2s;
 }
 .navtop {
-  	background-color: #2f3947;
+  	background-color: #d5d95d;
   	height: 60px;
   	width: 100%;
   	border: 0;
@@ -98,20 +98,20 @@ body {
   	font-size: 24px;
   	padding: 0;
  	margin: 0;
-  	color: #eaebed;
+  	color: #000000;
   	font-weight: normal;
 }
 .navtop div a {
   	padding: 0 20px;
   	text-decoration: none;
-  	color: #c1c4c8;
+  	color: #000000;
   	font-weight: bold;
 }
 .navtop div a i {
   	padding: 2px 8px 0 0;
 }
 .navtop div a:hover {
-  	color: #eaebed;
+  	color: #787878;
 }
 body.loggedin {
   	background-color: #f3f4f7;
@@ -125,7 +125,7 @@ body.loggedin {
   	padding: 25px 0;
   	font-size: 22px;
   	border-bottom: 1px solid #e0e0e3;
-  	color: #4a536e;
+  	color: #000000;
 }
 .content > p, .content > div {
   	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
@@ -138,7 +138,7 @@ body.loggedin {
 }
 .content > p table td:first-child, .content > div table td:first-child {
 	font-weight: bold;
-	color: #4a536e;
+	color: #000000;
 	padding-right: 15px;
 }
 .content > div p {

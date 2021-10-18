@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
+from api import *
 import MySQLdb.cursors
 import re
+import pika
 
 app = Flask(__name__)
 
@@ -99,6 +101,7 @@ def home():
     if 'loggedin' in session:
         # User is loggedin show them the home page
         return render_template('home.html', username=session['username'])
+
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
@@ -115,6 +118,21 @@ def profile():
         return render_template('profile.html', account=account)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+@app.route('/pythonlogin/home', methods=['GET','POST'])
+def search():
+    if request.method =='POST':
+        search = request.form['text']
+        sumInfo = riotAPI.main(search)
+        credentials = pika.PlainCredentials(username='minnie', password='1234')
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='172.24.122.108', credentials=credentials))
+        channel = connection.channel()
+        channel.queue_declare(queue='api')
+        channel.basic_publish(exchange='', routing_key='api', body=sumInfo)
+        connection.close()
+        return render_template('search.html', search=search, sumInfo=sumInfo)
+    return redirect(url_for('login'))
+
 
 if __name__ == "__main__":
     app.run(threaded=True)
