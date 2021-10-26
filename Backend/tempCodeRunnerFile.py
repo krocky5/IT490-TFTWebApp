@@ -1,1 +1,0 @@
-response = riotAPI.main(sumName)

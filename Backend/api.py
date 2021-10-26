@@ -1,7 +1,7 @@
 import requests, sys, os
 
 # API Key from Riot Developer Portal
-apiKey = "RGAPI-992d1705-cee2-4598-849f-8745893b4cdd"
+apiKey = "RGAPI-93835315-c8b9-4c36-9ccd-09df2d31bc64"
 
 class riotAPI(object):
     def reqData(sumName):
