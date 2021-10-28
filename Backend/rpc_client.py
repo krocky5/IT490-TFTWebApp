@@ -38,4 +38,3 @@ class riotRpcClient(object):
             self.connection.process_data_events()
         return self.response
 
-riotAPI_rpc = riotRpcClient()
