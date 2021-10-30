@@ -1,10 +1,14 @@
+import json
 import requests, sys, os, inflect
 
 # API Key from Riot Developer Portal
-apiKey = "RGAPI-22a36263-c18a-4dfd-b1f3-646dec680525"
+apiKey = "RGAPI-5680df8a-8b8c-463b-b624-214f3627435c"
 
-# used to create ordinal numbers
+# inflect is used to create ordinal numbers
 ordinalNumbers = inflect.engine()
+
+# Response Errors (HTTP STATUS CODES)
+errorCodes = [400, 401, 403, 404, 405, 415, 429, 500, 502, 503, 504]
 
 class riotAPI(object):
     def reqData(sumName):
@@ -14,6 +18,11 @@ class riotAPI(object):
 
         # Return raw json with relevant information
         return response.json()
+
+    def summonerIcon(iconNum):
+        iconNum_as_str = str(iconNum)
+        URL = "https://ddragon.leagueoflegends.com/cdn/11.21.1/img/profileicon/" + iconNum_as_str + ".png"
+        return URL
 
     def reqRankData(sumId):
         # This functions requests data based on Summoner ID
@@ -51,23 +60,42 @@ class riotAPI(object):
         # Return raw json with relevant information
         return response.json()
 
-
     def main (sumName):
         # main function
 
         # Send user inputted information 'sumName' to riotAPI's function reqData
         sumPlayerData = riotAPI.reqData(sumName)
 
-        # Assigning variables to the information that we want
+        # Error Checking
+        try:
+            # Checks if "name" in the JSON exists. When user does not exist, this field does not show up.
+            sumPlayerData["name"] == True
+            # Program will continue on.
+        except Exception:
+            # Check the HTTP Status Code
+            if sumPlayerData['status']['status_code'] in errorCodes:
+                eCode = sumPlayerData['status']['status_code']
+                eCode_as_string = str(eCode)
+                return "Summoner Name: " + sumName + " does not exist. Error Code: " + eCode_as_string
+        
+        # Assigning variables to the information we are passing to the above functions.
         sumId = sumPlayerData['id']
         accountId = sumPlayerData['accountId']
         puuid = sumPlayerData['puuid']
+        playerIcon = sumPlayerData['profileIconId']
 
         # Sending 'id' to riotAPI's function reqRankData
         sumTFTRankData = riotAPI.reqRankData(sumId)
 
+        # Check to see if the user has a TFT rank. 
+        if sumTFTRankData == []:
+            return sumName + " does not have a TFT rank."
+
         # Sending 'puuid' to riotAPI's function reqMatchID
         sumTFTMatchID = riotAPI.reqMatchID(puuid)
+
+        # Sending 'playerIcon' to riotAPI's function summonerIcon
+        sumIcon = riotAPI.summonerIcon(playerIcon)
 
         sumTier = sumTFTRankData[0]['tier']
         sumRank = sumTFTRankData[0]['rank']
@@ -102,7 +130,7 @@ class riotAPI(object):
         jnameListAsString = '\n'.join(nameListAsString)
         
         finalResults = jsumString + "\nStats from Last Game:\n" + jnameListAsString
-        return finalResults
+        return finalResults + '\n' + sumIcon
 
 
 if __name__ == '__main__':
