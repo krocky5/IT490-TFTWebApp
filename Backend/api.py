@@ -1,8 +1,7 @@
-import json
 import requests, sys, os, inflect
 
 # API Key from Riot Developer Portal
-apiKey = "RGAPI-5680df8a-8b8c-463b-b624-214f3627435c"
+apiKey = "RGAPI-f857ca65-a7de-421b-a625-3e9ead84cdbe"
 
 # inflect is used to create ordinal numbers
 ordinalNumbers = inflect.engine()
@@ -118,6 +117,7 @@ class riotAPI(object):
             playerPlacement_as_string = str(addingOrdinal)
             playerLevel_as_string = str(playerLevel)
             playerStats = riotAPI.summonerName(playerPuuid)
+            sumIcon = riotAPI.summonerIcon(playerIcon)
             playerName = playerStats['name']
             nameList.append(playerName + " - Level: " + playerLevel_as_string + " - Finished " + playerPlacement_as_string)
 
