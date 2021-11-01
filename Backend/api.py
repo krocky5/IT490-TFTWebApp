@@ -1,141 +1,150 @@
 import requests, sys, os, inflect
 
 # API Key from Riot Developer Portal
-apiKey = "RGAPI-f857ca65-a7de-421b-a625-3e9ead84cdbe"
+API_KEY = "RGAPI-fc658b4d-84af-48dd-bafa-4f2c64839e86"
 
 # inflect is used to create ordinal numbers
-ordinalNumbers = inflect.engine()
+ordinal_numbers = inflect.engine()
 
 # Response Errors (HTTP STATUS CODES)
-errorCodes = [400, 401, 403, 404, 405, 415, 429, 500, 502, 503, 504]
+ERROR_CODES = [400, 401, 403, 404, 405, 415, 429, 500, 502, 503, 504]
 
-class riotAPI(object):
-    def reqData(sumName):
+class RiotAPI(object):
+    def req_data(sum_name):
         # This functions requests data from your Summoner Name
-        URL = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + sumName + "?api_key=" + apiKey
+        URL = f"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{sum_name}?api_key={API_KEY}"
         response = requests.get(URL)
 
         # Return raw json with relevant information
         return response.json()
 
-    def summonerIcon(iconNum):
-        iconNum_as_str = str(iconNum)
-        URL = "https://ddragon.leagueoflegends.com/cdn/11.21.1/img/profileicon/" + iconNum_as_str + ".png"
+    def summoner_icon(icon_number):
+        icon_number_as_string = str(icon_number)
+        URL = f"https://ddragon.leagueoflegends.com/cdn/11.21.1/img/profileicon/{icon_number_as_string}.png"
         return URL
 
-    def reqRankData(sumId):
+    def req_rank_data(sum_id):
         # This functions requests data based on Summoner ID
         # Summoner ID is extracted from Summoner Name and used to create the following link.
-        URL = "https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/" + sumId +"?api_key=" + apiKey
+        URL = f"https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/{sum_id}?api_key={API_KEY}"
         response = requests.get(URL)
 
         # Return raw json with relevant information
         return response.json()
 
-    def summonerName(playerPuuid):
+    def summoner_name(player_puuid):
         # This functions requests summoner named based on puuid
 
-        URL = "https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/" + playerPuuid + "?api_key=" + apiKey
+        URL = f"https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/{player_puuid}?api_key={API_KEY}"
         response = requests.get(URL)
 
         # Return raw json with relevant information
         return response.json()
 
-    def reqMatchID(puuid):
+    def req_match_id(puuid):
         # This functions requests data based on Summoner puuid
         # Summoner puuid is extracted from Summoner Name and used to create the following link.
-        URL = "https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/" + puuid + "/ids?count=20&api_key=" + apiKey
+        URL = f"https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/{puuid}/ids?count=20&api_key={API_KEY}"
         response = requests.get(URL)
 
         # Return raw json with relevant information
         return response.json()
 
-    def latestMatchIDStats(matchID):
+    def latest_match_id_stats(match_id):
         # This functions requests data based on latest match id.
-        # Match id is extracted from reqMatchID and used to create the following link.
-        URL = "https://americas.api.riotgames.com/tft/match/v1/matches/" + matchID + "?api_key=" + apiKey
+        # Match id is extracted from req_match_id and used to create the following link.
+        URL = f"https://americas.api.riotgames.com/tft/match/v1/matches/{match_id}?api_key={API_KEY}"
         response = requests.get(URL)
         
         # Return raw json with relevant information
         return response.json()
 
-    def main (sumName):
+    def main(sum_name):
         # main function
 
-        # Send user inputted information 'sumName' to riotAPI's function reqData
-        sumPlayerData = riotAPI.reqData(sumName)
+        # Send user inputted information 'sum_name' to RiotAPI's function req_data
+        sum_player_data = RiotAPI.req_data(sum_name)
 
         # Error Checking
         try:
             # Checks if "name" in the JSON exists. When user does not exist, this field does not show up.
-            sumPlayerData["name"] == True
+            sum_player_data["name"] == True
             # Program will continue on.
         except Exception:
             # Check the HTTP Status Code
-            if sumPlayerData['status']['status_code'] in errorCodes:
-                eCode = sumPlayerData['status']['status_code']
-                eCode_as_string = str(eCode)
-                return "Summoner Name: " + sumName + " does not exist. Error Code: " + eCode_as_string
+            if sum_player_data['status']['status_code'] in ERROR_CODES:
+                e_code = sum_player_data['status']['status_code']
+                e_code_as_string = str(e_code)
+                return f"Summoner Name: {sum_name} does not exist.\nError Code: {e_code_as_string}"
         
         # Assigning variables to the information we are passing to the above functions.
-        sumId = sumPlayerData['id']
-        accountId = sumPlayerData['accountId']
-        puuid = sumPlayerData['puuid']
-        playerIcon = sumPlayerData['profileIconId']
+        sum_id = sum_player_data['id']
+        account_id = sum_player_data['accountId']
+        puuid = sum_player_data['puuid']
+        player_icon = sum_player_data['profileIconId']
 
-        # Sending 'id' to riotAPI's function reqRankData
-        sumTFTRankData = riotAPI.reqRankData(sumId)
+        # Sending 'id' to RiotAPI's function req_rank_data
+        sum_TFT_rank_data = RiotAPI.req_rank_data(sum_id)
 
         # Check to see if the user has a TFT rank. 
-        if sumTFTRankData == []:
-            return sumName + " does not have a TFT rank."
+        if sum_TFT_rank_data == []:
+            return f"{sum_name} does not have a TFT rank."
+            
+        # Sending 'puuid' to RiotAPI's function req_match_id
+        sum_TFT_match_id = RiotAPI.req_match_id(puuid)
 
-        # Sending 'puuid' to riotAPI's function reqMatchID
-        sumTFTMatchID = riotAPI.reqMatchID(puuid)
+        # Sending 'player_icon' to RiotAPI's function summoner_icon
+        sum_icon = RiotAPI.summoner_icon(player_icon)
 
-        # Sending 'playerIcon' to riotAPI's function summonerIcon
-        sumIcon = riotAPI.summonerIcon(playerIcon)
-
-        sumTier = sumTFTRankData[0]['tier']
-        sumRank = sumTFTRankData[0]['rank']
+        sum_tier = sum_TFT_rank_data[0]['tier']
+        sum_rank = sum_TFT_rank_data[0]['rank']
         
         # Latest Match
-        sumMatchID = sumTFTMatchID[0]
+        sum_match_id = sum_TFT_match_id[0]
 
         # Latest Match Stats
-        sumMatchIDStats = riotAPI.latestMatchIDStats(sumMatchID)
+        sum_match_id_stats = RiotAPI.latest_match_id_stats(sum_match_id)
         
-
         # for loop that gets the name of each player in your game and their respective placement
-        nameList =[]
+        name_list =[]
 
         for i in range(0, 8):
-            playerPuuid = sumMatchIDStats['info']['participants'][i]['puuid']
-            playerPlacement = sumMatchIDStats['info']['participants'][i]['placement']
-            playerLevel = sumMatchIDStats['info']['participants'][i]['level']
-            addingOrdinal = ordinalNumbers.ordinal(playerPlacement)
-            playerPlacement_as_string = str(addingOrdinal)
-            playerLevel_as_string = str(playerLevel)
-            playerStats = riotAPI.summonerName(playerPuuid)
-            sumIcon = riotAPI.summonerIcon(playerIcon)
-            playerName = playerStats['name']
-            nameList.append(playerName + " - Level: " + playerLevel_as_string + " - Finished " + playerPlacement_as_string)
+            player_puuid = sum_match_id_stats['info']['participants'][i]['puuid']
+            player_placement = sum_match_id_stats['info']['participants'][i]['placement']
+            player_level = sum_match_id_stats['info']['participants'][i]['level']
+            adding_ordinal = ordinal_numbers.ordinal(player_placement)
+            player_placement_as_string = str(adding_ordinal)
+            player_level_as_string = str(player_level)
+            player_stats = RiotAPI.summoner_name(player_puuid)
+            player_name = player_stats['name']
+            name_list.append(f"{player_name} - Level: {player_level_as_string} - Finished {player_placement_as_string}")
 
-        # string with information about Summoner + Tier + Rank
-        sumString = sumName, sumTier, sumRank
-        jsumString = ', '.join(sumString)
+        # simple message that states your placement from your last game lmfao
+        player_placement_list=[]
+        for i in range(0,8):
+            if puuid == sum_match_id_stats['info']['participants'][i]['puuid']:
+                player_placement = sum_match_id_stats['info']['participants'][i]['placement']
+                adding_ordinal = ordinal_numbers.ordinal(player_placement)
+                player_placement_as_string = str(adding_ordinal)
+                player_placement_list.append(player_placement_as_string)
+        player_placement_list_as_string = ''.join(player_placement_list)
+        ur_the_best = f"You placed {player_placement_list_as_string} in your last game!"
 
-        # string of the player's in your last match w/ their level and placement
-        nameListAsString = nameList
-        jnameListAsString = '\n'.join(nameListAsString)
+        # converting the tuple 'sum_string' into a string
+        sum_string = sum_name, sum_tier, sum_rank
+        join_sum_string = ', '.join(sum_string)
+
+        # converting name_list into a string
+        join_name_list = '\n'.join(name_list)
         
-        finalResults = jsumString + "\nStats from Last Game:\n" + jnameListAsString
-        return finalResults + '\n' + sumIcon
+        # final results
+        final_results = f"{join_sum_string}\nStats from Last Game:\n{join_name_list}"
+        return f"{final_results}\n{sum_icon}\n{ur_the_best}"
 
 
 if __name__ == '__main__':
     try:
-        riotAPI.main()
+        RiotAPI.main()
     except KeyboardInterrupt:
         print('\nProgram Interrupted')
         try:

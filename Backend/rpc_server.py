@@ -12,7 +12,7 @@ def on_request(ch, method, props, body):
 
     body=body.decode('utf-8')
     print(body)
-    body = riotAPI.main(body)
+    body = RiotAPI.main(body)
     ch.basic_publish(exchange='',
                      routing_key=props.reply_to,
                      properties=pika.BasicProperties(correlation_id = \
