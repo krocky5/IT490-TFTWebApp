@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
-from api import *
+from rpc_client import *
 import MySQLdb.cursors
 import re
 import pika
@@ -19,6 +19,7 @@ app.config['MYSQL_DB'] = 'pythonlogin'
 # Intialize MySQL
 mysql = MySQL(app)
 
+
 # http://localhost:5000/pythonlogin/ - this will be the login page, we need to use both GET and POST requests
 @app.route('/pythonlogin/', methods=['GET', 'POST'])
 def login():
@@ -29,6 +30,16 @@ def login():
         # Create variables for easy access
         username = request.form['username']
         password = request.form['password']
+        credentials = pika.PlainCredentials(username='jp', password='1234')
+        #username password must match on rabbitmq management site
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='172.24.122.108', credentials=credentials))
+        #host ipv4 of where the server is
+        channel = connection.channel()
+
+        channel.queue_declare(queue='login')
+
+        channel.basic_publish(exchange='', routing_key='login', body=username+' '+password)
+        connection.close()
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password,))
@@ -70,6 +81,17 @@ def register():
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
+        credentials = pika.PlainCredentials(username='jp', password='1234')
+        #username password must match on rabbitmq management site
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='172.24.122.108', credentials=credentials))
+        #host ipv4 of where the server is
+        channel = connection.channel()
+
+        channel.queue_declare(queue='register')
+
+        channel.basic_publish(exchange='', routing_key='register', body=username+ ' '+password+' '+email)
+        connection.close()
+
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
@@ -123,14 +145,9 @@ def profile():
 def search():
     if request.method =='POST':
         search = request.form['text']
-        sumInfo = riotAPI.main(search)
-        credentials = pika.PlainCredentials(username='minnie', password='1234')
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host='172.24.122.108', credentials=credentials))
-        channel = connection.channel()
-        channel.queue_declare(queue='api')
-        channel.basic_publish(exchange='', routing_key='api', body=sumInfo)
-        connection.close()
-        return render_template('search.html', search=search, sumInfo=sumInfo)
+        riotAPI_rpc = riotRpcClient()
+        response = riotAPI_rpc.call(search).decode('utf-8')
+        return render_template('search.html', search=search, response=response)
     return redirect(url_for('login'))
 
 
