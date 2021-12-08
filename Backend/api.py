@@ -1,13 +1,13 @@
 import requests, sys, os, inflect
 
 # API Key from Riot Developer Portal
-API_KEY = "RGAPI-fc658b4d-84af-48dd-bafa-4f2c64839e86"
-
-# inflect is used to create ordinal numbers
-ordinal_numbers = inflect.engine()
+API_KEY = "RGAPI-9e89e23e-f818-47a3-83c2-61eaf0544e44"
 
 # Response Errors (HTTP STATUS CODES)
 ERROR_CODES = [400, 401, 403, 404, 405, 415, 429, 500, 502, 503, 504]
+
+# inflect is used to create ordinal numbers
+ordinal_numbers = inflect.engine()
 
 class RiotAPI(object):
     def req_data(sum_name):
@@ -61,7 +61,6 @@ class RiotAPI(object):
 
     def main(sum_name):
         # main function
-
         # Send user inputted information 'sum_name' to RiotAPI's function req_data
         sum_player_data = RiotAPI.req_data(sum_name)
 
@@ -87,8 +86,7 @@ class RiotAPI(object):
         sum_TFT_rank_data = RiotAPI.req_rank_data(sum_id)
 
         # Check to see if the user has a TFT rank. 
-        if sum_TFT_rank_data == []:
-            return f"{sum_name} does not have a TFT rank."
+        if (sum_TFT_rank_data == []): return f"{sum_name} does not have a TFT rank."
             
         # Sending 'puuid' to RiotAPI's function req_match_id
         sum_TFT_match_id = RiotAPI.req_match_id(puuid)
@@ -98,16 +96,15 @@ class RiotAPI(object):
 
         sum_tier = sum_TFT_rank_data[0]['tier']
         sum_rank = sum_TFT_rank_data[0]['rank']
-        
+    
         # Latest Match
         sum_match_id = sum_TFT_match_id[0]
-
+        
         # Latest Match Stats
         sum_match_id_stats = RiotAPI.latest_match_id_stats(sum_match_id)
         
         # for loop that gets the name of each player in your game and their respective placement
-        name_list =[]
-
+        name_list = []
         for i in range(0, 8):
             player_puuid = sum_match_id_stats['info']['participants'][i]['puuid']
             player_placement = sum_match_id_stats['info']['participants'][i]['placement']
@@ -130,6 +127,21 @@ class RiotAPI(object):
         player_placement_list_as_string = ''.join(player_placement_list)
         ur_the_best = f"You placed {player_placement_list_as_string} in your last game!"
 
+        # avg placement / wr over last 20 games
+        total_number_of_matches = len(sum_TFT_match_id)
+        first_place_counter = 0
+        for i in range(total_number_of_matches):
+            sum_match_id = sum_TFT_match_id[i]
+            sum_match_id_stats = RiotAPI.latest_match_id_stats(sum_match_id)
+            for i in range(0,8):
+                if puuid == sum_match_id_stats['info']['participants'][i]['puuid']:
+                    player_placement = sum_match_id_stats['info']['participants'][i]['placement']
+                    if player_placement == 1:
+                        first_place_counter += 1
+        
+        win_rate = (first_place_counter/total_number_of_matches) * 100
+        winner = f"You have a {win_rate} % win rate over the last {total_number_of_matches} games!"
+
         # converting the tuple 'sum_string' into a string
         sum_string = sum_name, sum_tier, sum_rank
         join_sum_string = ', '.join(sum_string)
@@ -139,7 +151,7 @@ class RiotAPI(object):
         
         # final results
         final_results = f"{join_sum_string}\nStats from Last Game:\n{join_name_list}"
-        return f"{final_results}\n{sum_icon}\n{ur_the_best}"
+        return f"{final_results}\n{sum_icon}\n{ur_the_best}\n{winner}"
 
 
 if __name__ == '__main__':
