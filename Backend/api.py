@@ -1,17 +1,17 @@
 import requests, sys, os, inflect
 
 # API Key from Riot Developer Portal
-API_KEY = "RGAPI-9e89e23e-f818-47a3-83c2-61eaf0544e44"
+API_KEY = "RGAPI-b5c48864-36d2-483e-a9ae-722fde7e0418"
 
 # Response Errors (HTTP STATUS CODES)
 ERROR_CODES = [400, 401, 403, 404, 405, 415, 429, 500, 502, 503, 504]
 
-# inflect is used to create ordinal numbers
+# inflect module is used to create ordinal numbers
 ordinal_numbers = inflect.engine()
 
 class RiotAPI(object):
     def req_data(sum_name):
-        # This functions requests data from your Summoner Name
+        # This function requests data from your Summoner Name
         URL = f"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{sum_name}?api_key={API_KEY}"
         response = requests.get(URL)
 
@@ -24,7 +24,7 @@ class RiotAPI(object):
         return URL
 
     def req_rank_data(sum_id):
-        # This functions requests data based on Summoner ID
+        # This function requests data based on Summoner ID
         # Summoner ID is extracted from Summoner Name and used to create the following link.
         URL = f"https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/{sum_id}?api_key={API_KEY}"
         response = requests.get(URL)
@@ -33,7 +33,7 @@ class RiotAPI(object):
         return response.json()
 
     def summoner_name(player_puuid):
-        # This functions requests summoner named based on puuid
+        # This function requests summoner named based on puuid
 
         URL = f"https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/{player_puuid}?api_key={API_KEY}"
         response = requests.get(URL)
@@ -42,7 +42,7 @@ class RiotAPI(object):
         return response.json()
 
     def req_match_id(puuid):
-        # This functions requests data based on Summoner puuid
+        # This function requests data based on Summoner puuid
         # Summoner puuid is extracted from Summoner Name and used to create the following link.
         URL = f"https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/{puuid}/ids?count=20&api_key={API_KEY}"
         response = requests.get(URL)
@@ -51,7 +51,7 @@ class RiotAPI(object):
         return response.json()
 
     def latest_match_id_stats(match_id):
-        # This functions requests data based on latest match id.
+        # This function requests data based on latest match id.
         # Match id is extracted from req_match_id and used to create the following link.
         URL = f"https://americas.api.riotgames.com/tft/match/v1/matches/{match_id}?api_key={API_KEY}"
         response = requests.get(URL)
@@ -66,7 +66,7 @@ class RiotAPI(object):
 
         # Error Checking
         try:
-            # Checks if "name" in the JSON exists. When user does not exist, this field does not show up.
+            # Checks if "name" in the JSON exists. When a user does not exist, this field does not show up.
             sum_player_data["name"] == True
             # Program will continue on.
         except Exception:
@@ -78,7 +78,6 @@ class RiotAPI(object):
         
         # Assigning variables to the information we are passing to the above functions.
         sum_id = sum_player_data['id']
-        account_id = sum_player_data['accountId']
         puuid = sum_player_data['puuid']
         player_icon = sum_player_data['profileIconId']
 

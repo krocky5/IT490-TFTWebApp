@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# This is hosted on jp's laptop
+# Hosted on JP's Laptop
+# https://www.rabbitmq.com/tutorials/tutorial-six-python.html
 import pika
 from api import *
 
