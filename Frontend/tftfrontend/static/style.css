@@ -6,7 +6,7 @@
   	-moz-osx-font-smoothing: grayscale;
 }
 body {
-  	background-color: #b0f5ef;
+  	background-color: #000000;
   	margin: 0;
 }
 .login, .register {

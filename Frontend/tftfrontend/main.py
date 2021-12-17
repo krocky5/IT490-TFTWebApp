@@ -4,6 +4,7 @@ from rpc_client import *
 import MySQLdb.cursors
 import re
 import pika
+from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
 
@@ -11,9 +12,9 @@ app = Flask(__name__)
 app.secret_key = 'your secret key'
 
 # Enter your database connection details below
-app.config['MYSQL_HOST'] = 'ls-f92d29692c750ac4ee7de529c7e2d84a625c2b88.c7ce34mstcyf.us-east-1.rds.amazonaws.com'
-app.config['MYSQL_USER'] = 'dbmasteruser'
-app.config['MYSQL_PASSWORD'] = '^9s+;e1Jp3B>jW&(--.hVQ9~4pOjlg-E'
+app.config['MYSQL_HOST'] = '72.249.171.58'
+app.config['MYSQL_USER'] = 'jelastic-1623949'
+app.config['MYSQL_PASSWORD'] = 'qffY5jo1Yux1I0rgznm4'
 app.config['MYSQL_DB'] = 'pythonlogin'
 
 # Intialize MySQL
@@ -42,7 +43,7 @@ def login():
         connection.close()
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password,))
+        cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
         # Fetch one record and return result
         account = cursor.fetchone()
         # If account exists in accounts table in out database
@@ -107,7 +108,7 @@ def register():
             msg = 'Please fill out the form!'
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
-            cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s)', (username, password, email,))
+            cursor.execute('INSERT INTO pythonlogin.accounts VALUES (NULL, %s, %s, %s)', (username, password, email,))
             mysql.connection.commit()
             msg = 'You have successfully registered!'
     elif request.method == 'POST':
