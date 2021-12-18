@@ -4,7 +4,7 @@ from rpc_client import *
 import MySQLdb.cursors
 import re
 import pika
-from passlib.hash import sha256_crypt
+import hashlib
 
 app = Flask(__name__)
 
@@ -30,7 +30,7 @@ def login():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        password = request.form['password']
+        password = hashlib.md5(request.form['password'].encode()).hexdigest()
         credentials = pika.PlainCredentials(username='jp', password='1234')
         #username password must match on rabbitmq management site
         connection = pika.BlockingConnection(pika.ConnectionParameters(host='172.24.122.108', credentials=credentials))
@@ -39,11 +39,11 @@ def login():
 
         channel.queue_declare(queue='login')
 
-        channel.basic_publish(exchange='', routing_key='login', body=username+' '+password)
+        channel.basic_publish(exchange='', routing_key='login', body=username+' '+ str(password))
         connection.close()
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
+        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, str(password),))
         # Fetch one record and return result
         account = cursor.fetchone()
         # If account exists in accounts table in out database
@@ -80,7 +80,7 @@ def register():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        password = request.form['password']
+        password = hashlib.md5(request.form['password'].encode()).hexdigest()
         email = request.form['email']
         credentials = pika.PlainCredentials(username='jp', password='1234')
         #username password must match on rabbitmq management site
@@ -90,12 +90,12 @@ def register():
 
         channel.queue_declare(queue='register')
 
-        channel.basic_publish(exchange='', routing_key='register', body=username+ ' '+password+' '+email)
+        channel.basic_publish(exchange='', routing_key='register', body=username+ ' '+str(password)+' '+email)
         connection.close()
 
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
+        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, str(password),))
         account = cursor.fetchone()
         # If account exists show error and validation checks
         if account:
