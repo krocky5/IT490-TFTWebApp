@@ -1,7 +1,7 @@
 import requests, sys, os, inflect
 
 # API Key from Riot Developer Portal
-API_KEY = "RGAPI-b5c48864-36d2-483e-a9ae-722fde7e0418"
+API_KEY = "RGAPI-db20d80a-37e0-4a44-b5fb-429858187bbb"
 
 # Response Errors (HTTP STATUS CODES)
 ERROR_CODES = [400, 401, 403, 404, 405, 415, 429, 500, 502, 503, 504]
