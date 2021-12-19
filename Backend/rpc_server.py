@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# This is hosted on jp's laptop
+# Hosted on JP's Laptop
+# https://www.rabbitmq.com/tutorials/tutorial-six-python.html
 import pika
 from api import *
 
@@ -12,7 +13,7 @@ def on_request(ch, method, props, body):
 
     body=body.decode('utf-8')
     print(body)
-    body = riotAPI.main(body)
+    body = RiotAPI.main(body)
     ch.basic_publish(exchange='',
                      routing_key=props.reply_to,
                      properties=pika.BasicProperties(correlation_id = \
