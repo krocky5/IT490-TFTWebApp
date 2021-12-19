@@ -1,7 +1,11 @@
 
-#AWS POSTGRESQL SERVER
-#End Point
-ls-848979a20fe2155ba45e99daa26f2cf0c5eece0d.c7ce34mstcyf.us-east-1.rds.amazonaws.com
+#ToggleBox Cloud
+#https://manage.togglebox.com/index.php?/clientarea/
 
-#Port
-5432
+#Primary Database: 72.249.171.58
+
+#Secondary Database: 72.249.171.58
+
+#See admin for privliges
+
+
