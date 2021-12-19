@@ -5,145 +5,197 @@
   	-webkit-font-smoothing: antialiased;
   	-moz-osx-font-smoothing: grayscale;
 }
+
+/*background of login page*/
 body {
-	background-image: url("landingpage.jpg");
-	background-size: cover;
-  	background-color: #000000;
+  	background-color: #152120;
   	margin: 0;
 }
+
+/*login and register box background*/
 .login, .register {
   	width: 400px;
-  	background-color: #ffffff;
+  	background-color: #29545a;
   	box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
   	margin: 100px auto;
 }
+
+/*Login Register heading color*/
 .login h1, .register h1 {
   	text-align: center;
-  	color: #000000;
+  	color: #a99355;
   	font-size: 24px;
   	padding: 20px 0 20px 0;
   	border-bottom: 1px solid #dee0e4;
 }
+
+/*Login Register button*/
 .login .links, .register .links {
   	display: flex;
   	padding: 0 15px;
 }
+
+/*inactive Login Register button*/
 .login .links a, .register .links a {
-  	color: #adb2ba;
+  	color: #a99355;
   	text-decoration: none;
   	display: inline-flex;
   	padding: 0 10px 10px 10px;
   	font-weight: bold;
 }
+
+/*login register button when hovered*/
 .login .links a:hover, .register .links a:hover {
-  	color: #9da3ac;
+  	color: #f0de9c;
 }
+
+/*active login register color*/
 .login .links a.active, .register .links a.active {
-  	border-bottom: 3px solid #d5d95d;
-  	color: #d5d95d;
+  	border-bottom: 3px solid #f0de9c;
+  	color: #f0de9c;
 }
+
+/*username password box allignment*/
 .login form, .register form {
   	display: flex;
   	flex-wrap: wrap;
   	justify-content: center;
   	padding-top: 20px;
 }
+
+/*username password icon color*/
 .login form label, .register form label {
   	display: flex;
   	justify-content: center;
   	align-items: center;
   	width: 50px;
   	height: 50px;
-  	background-color: #d5d95d;
-  	color: #ffffff;
+  	background-color: #29545a;
+  	color: #f0de9c;
 }
+
+/*username password input ox color*/
 .login form input[type="password"], .login form input[type="text"], .login form input[type="email"], .register form input[type="password"], .register form input[type="text"], .register form input[type="email"] {
   	width: 310px;
   	height: 50px;
-  	border: 1px solid #dee0e4;
+	background-color: #29545a;
+  	border: 1px solid #29545a;
   	margin-bottom: 20px;
   	padding: 0 15px;
 }
+
+/*submit bar*/
 .login form input[type="submit"], .register form input[type="submit"] {
   	width: 100%;
   	padding: 15px;
   	margin-top: 20px;
-  	background-color: #d5d95d;
+  	background-color: #f0de9c;
   	border: 0;
   	cursor: pointer;
   	font-weight: bold;
-  	color: #ffffff;
+  	color: #29545a;
   	transition: background-color 0.2s;
 }
+
+/*submiit button when hovered*/
 .login form input[type="submit"]:hover, .register form input[type="submit"]:hover {
-  	background-color: #989c4e;
+  	background-color: #b6f2d9;
   	transition: background-color 0.2s;
 }
+
+/*color of nav bar*/
 .navtop {
-  	background-color: #d5d95d;
+  	background-color: #152120;
   	height: 60px;
   	width: 100%;
   	border: 0;
 }
+
+/*size of nav bar */
 .navtop div {
   	display: flex;
   	margin: 0 auto;
   	width: 1000px;
   	height: 100%;
 }
+
+/*where GGEZ Home Profile Logout floats in nav bar. centered in the box*/
 .navtop div h1, .navtop div a {
   	display: inline-flex;
   	align-items: center;
 }
+
+/*color of GGEZ*/
 .navtop div h1 {
   	flex: 1;
-  	font-size: 24px;
+  	font-size: 40px;
   	padding: 0;
  	margin: 0;
-  	color: #000000;
+  	color: #a99355;
   	font-weight: normal;
 }
+
+/*color of Home Profile Logout*/
 .navtop div a {
   	padding: 0 20px;
   	text-decoration: none;
-  	color: #000000;
+  	color: #a99355;
   	font-weight: bold;
 }
+
+/*spacing between Home Profile Logout*/
 .navtop div a i {
   	padding: 2px 8px 0 0;
 }
+
+/*changing color of HOme Profile Logout when hovered*/
 .navtop div a:hover {
-  	color: #787878;
+  	color: #f0de9c;
 }
+
+/*background color of home page*/
 body.loggedin {
-  	background-color: #f3f4f7;
+  	background-color: #152120;
 }
+
+/*the content size*/
 .content {
   	width: 1000px;
   	margin: 0 auto;
 }
+
+/*horizontal bar betweeb top nav bar and the content*/
 .content h2 {
   	margin: 0;
   	padding: 25px 0;
   	font-size: 22px;
-  	border-bottom: 1px solid #e0e0e3;
-  	color: #000000;
+  	border-bottom: 2px solid #f0de9c;
+  	color: #a99355;
 }
+
+/*content background color*/
 .content > p, .content > div {
   	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   	margin: 25px 0;
   	padding: 25px;
-	background-color: #fff;
+	background-color: #29545a;
 }
+
+/*spacing between Username: Password: Email: */
 .content > p table td, .content > div table td {
 	padding: 5px;
 }
+
+/*Username: Password: Email: */
 .content > p table td:first-child, .content > div table td:first-child {
 	font-weight: bold;
-	color: #000000;
+	color: #f0de9c;
 	padding-right: 15px;
 }
+
+/*your account details are below*/
 .content > div p {
 	padding: 5px;
 	margin: 0 0 10px 0;
+	color: #ffffff;
 }
